@@ -95,7 +95,37 @@
     background-color: #0069d9;
   }
 
-
-
+  .pdf-upload {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
   
-  
+  .pdf-upload input[type="file"] {
+    display: none;
+  }
+
+  .choose-button,
+  .upload-button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: inherit;
+    text-align: center;
+  }
+
+  .choose-button:hover,
+  .upload-button:hover {
+    background-color: #0069d9;
+  }
+
+  .choose-button:disabled,
+  .upload-button:disabled {
+    background-color: #6c757d;
+  }

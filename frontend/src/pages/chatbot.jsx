@@ -103,7 +103,7 @@ const ChatBot = () => {
     if (!pdfFile) return alert("Please choose a PDF first.");
     const formData = new FormData();
     formData.append("file", pdfFile);
-
+  
     try {
       const token = localStorage.getItem(ACCESS_TOKEN);
       const res = await api.post("/api/upload-pdf/", formData, {
@@ -112,12 +112,28 @@ const ChatBot = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-      alert(res.data.message);
+  
+      // Show a new message in chat history
+      const fileName = pdfFile.name;
+      const botMessage = {
+        message: `Uploaded PDF: ${fileName}`,
+        response: `✅ Successfully indexed "${fileName}". You can now ask questions about its contents.`
+      };
+      const updatedHistory = [...chatHistory, botMessage];
+      setChatHistory(updatedHistory);
+      sessionStorage.setItem('chatHistory', JSON.stringify(updatedHistory));
+      setPdfFile(null);  // optional: reset file input
     } catch (err) {
       console.error(err);
-      alert("Upload failed.");
+      const updatedHistory = [...chatHistory, {
+        message: `Upload attempt failed.`,
+        response: `❌ Upload failed. Please try again.`
+      }];
+      setChatHistory(updatedHistory);
+      sessionStorage.setItem('chatHistory', JSON.stringify(updatedHistory));
     }
   };
+  
 
   return (
     <div className="chatbot-container">
@@ -143,9 +159,10 @@ const ChatBot = () => {
       <button className="send-button" onClick={sendMessage} disabled={loading}>
         Send
       </button>
-      <div style={{ marginTop: '10px' }}>
-        <input type="file" accept="application/pdf" onChange={e => setPdfFile(e.target.files[0])} />
-        <button onClick={handlePDFUpload}>Upload PDF</button>
+      <div className="pdf-upload">
+        <label htmlFor="file-upload" className="choose-button">Choose PDF</label>
+        <input id="file-upload" type="file" accept="application/pdf" onChange={e => setPdfFile(e.target.files[0])} />
+        <button className="upload-button" onClick={handlePDFUpload}>Upload PDF</button>
       </div>
     </div>
   );
