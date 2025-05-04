@@ -1,0 +1,62 @@
+# === Python / Django ===
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.sqlite3
+*.log
+
+# Django specific
+db.sqlite3
+/media/
+/staticfiles/
+*.pot
+*.py[cod]
+*.so
+.Python
+.env
+.env.local
+.env.*
+
+# Virtualenv
+env/
+venv/
+ai/
+backend/api/ai_agent/ai/
+
+# Migrations (optional)
+*/migrations/*
+
+# === Node / React ===
+node_modules/
+dist/
+build/
+.vite/
+
+# Local development
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+coverage/
+npm-debug.log
+yarn-error.log
+
+# === System files ===
+Thumbs.db
+desktop.ini
+
+# === LFS or large file override ===
+*.dll
+*.lib
+*.exe
+*.whl
+*.zip
+*.tar.gz
+*.bin
+*.ckpt
+*.pt
+*.onnx
+*.h5
+*.model

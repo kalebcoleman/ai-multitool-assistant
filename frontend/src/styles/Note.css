@@ -1,0 +1,91 @@
+.notes-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.notes-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.note-container {
+  padding: 10px;
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.note-title {
+  color: #333;
+}
+
+.note-content {
+  color: #666;
+}
+
+.note-date {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.delete-button {
+  background-color: #f44336; /* Red */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f; /* Darker red */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form input[type="text"],
+form textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+form input[type="submit"] {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+form input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.home-button-note {
+  background-color: #4CAF50; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 10px 20px; /* Some padding */
+  text-align: center; /* Centered text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Get the element to sit beside others */
+  font-size: 16px; /* Increase font size */
+  margin: 10px 0px; /* Some margin */
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer; /* Pointer/hand icon */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.home-button-note:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
