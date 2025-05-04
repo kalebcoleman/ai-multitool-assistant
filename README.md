@@ -125,6 +125,33 @@ After uploading a PDF, you can ask:
 
 * "Can you put that into Fahrenheit?"
 
+## 📝 Notes Feature
+You can create, view, and delete notes that are tied to your user account. This makes it easy to track and save key information from your chats or personal input.
+
+Features:
+
+Notes are stored per user account.
+
+You can create new notes easily via a form.
+
+Delete notes instantly.
+
+All notes are timestamped.
+
+Example Screenshots
+
+✅ Creating a Note
+
+![Creating a Note](./images/note%20creating%20proof.PNG)
+
+📋 Notes Saved with Timestamp
+
+![Saved Note With Timestamp](./images/notes%20example.PNG)
+
+🧾 Example Note
+
+![Example Note](./images/notes%20created.PNG)
+
 ## 📜 Credits
 
 Inspired by:
