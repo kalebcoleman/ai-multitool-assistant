@@ -97,6 +97,28 @@ const ChatBot = () => {
     }
   };
 
+  const [pdfFile, setPdfFile] = useState(null);
+
+  const handlePDFUpload = async () => {
+    if (!pdfFile) return alert("Please choose a PDF first.");
+    const formData = new FormData();
+    formData.append("file", pdfFile);
+
+    try {
+      const token = localStorage.getItem(ACCESS_TOKEN);
+      const res = await api.post("/api/upload-pdf/", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      alert(res.data.message);
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed.");
+    }
+  };
+
   return (
     <div className="chatbot-container">
       <h1>Chat with Bot</h1>
@@ -121,6 +143,10 @@ const ChatBot = () => {
       <button className="send-button" onClick={sendMessage} disabled={loading}>
         Send
       </button>
+      <div style={{ marginTop: '10px' }}>
+        <input type="file" accept="application/pdf" onChange={e => setPdfFile(e.target.files[0])} />
+        <button onClick={handlePDFUpload}>Upload PDF</button>
+      </div>
     </div>
   );
 };

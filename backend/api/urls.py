@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import NoteListCreate, NoteDelete, CreateUserView, AIQueryView, UserChatHistoryView, ClearChatHistoryView
+from .views import NoteListCreate, NoteDelete, CreateUserView, AIQueryView, UserChatHistoryView, ClearChatHistoryView, UploadPDFView
 
 urlpatterns = [
     path('notes/', NoteListCreate.as_view(), name='note-list-create'),
@@ -8,5 +8,5 @@ urlpatterns = [
     path('query/', AIQueryView.as_view(), name='ai-query'),
     path('chat-history/', UserChatHistoryView.as_view(), name='user-chat-history'),
     path('clear-chat-history/', ClearChatHistoryView.as_view(), name='clear_chat_history'),
-
+    path('upload-pdf/', UploadPDFView.as_view(), name='upload-pdf'),
 ]

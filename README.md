@@ -1,4 +1,4 @@
-## 🧠 AI Agent Assistant - Django + React + LlamaIndex + Azure
+## 🧠 AI Agent Assistant - Django + React + LlamaIndex + OpenAi
 
 An intelligent full-stack AI-powered web assistant that allows users to:
 

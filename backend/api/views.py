@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics, views
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import UserSerializer, NoteSerializer, ChatMessageSerializer
+from django.conf import settings
+from django.core.files.storage import default_storage
 from .models import Note, ChatMessage
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -11,8 +15,10 @@ from rest_framework.decorators import api_view, permission_classes
 import json
 from .ai_agent.prompts import context
 from dotenv import load_dotenv
+from llama_index.core import VectorStoreIndex, StorageContext, load_index_from_storage
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
+from llama_index.readers.file.docs.base import PDFReader
 from .ai_agent.pdf import United_engine, World_engine, Kaleb_engine
 from .ai_agent.news import news_engine
 from .ai_agent.crypto import crypto_price_tool
@@ -29,9 +35,9 @@ load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
 # Define tools for the agent
 tools = [
+
     weather_engine,
     news_engine,
     crypto_price_tool,
@@ -58,8 +64,78 @@ tools = [
 # Initialize the LLM
 llm = OpenAI(model="gpt-3.5-turbo-1106")
 
+dynamic_tools = {}
+
 # Initialize the ReActAgent
 agent = ReActAgent.from_tools(tools, llm=llm, verbose=True, context=context, max_iterations=10)
+
+def load_dynamic_pdf_tools():
+    tools = []
+    index_dir = os.path.join(settings.MEDIA_ROOT, "indexes")
+
+    for folder_name in os.listdir(index_dir):
+        folder_path = os.path.join(index_dir, folder_name)
+        if os.path.isdir(folder_path):
+            try:
+                index = load_index_from_storage(StorageContext.from_defaults(persist_dir=folder_path))
+                engine = index.as_query_engine()
+                tools.append(QueryEngineTool(
+                    query_engine=engine,
+                    metadata=ToolMetadata(
+                        name=f"{folder_name}_pdf_data",
+                        description=f"Data from the uploaded PDF file: {folder_name}"
+                    )
+                ))
+            except Exception as e:
+                print(f"⚠️ Failed to load index from {folder_path}: {e}")
+    return tools
+
+for tool in load_dynamic_pdf_tools():
+    dynamic_tools[tool.metadata.name] = tool
+
+print("✅ Loaded tools:", list(dynamic_tools.keys()))
+
+class UploadPDFView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        file_obj = request.FILES.get("file")
+        if not file_obj:
+            return Response({"error": "No file provided"}, status=400)
+
+        filename = file_obj.name
+        save_path = os.path.join(settings.MEDIA_ROOT, 'pdfs', filename)
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+        with default_storage.open(save_path, 'wb+') as destination:
+            for chunk in file_obj.chunks():
+                destination.write(chunk)
+
+        try:
+            # Index PDF
+            documents = PDFReader().load_data(file=save_path)
+            clean_name = os.path.splitext(filename)[0].lower().replace(" ", "_")
+            index_name = f"{clean_name}_index"
+            index_dir = os.path.join(settings.MEDIA_ROOT, 'indexes', index_name)
+
+            index = VectorStoreIndex.from_documents(documents, show_progress=True)
+            index.storage_context.persist(persist_dir=index_dir)
+
+            query_engine = index.as_query_engine()
+            tool = QueryEngineTool(
+                query_engine=query_engine,
+                metadata=ToolMetadata(
+                    name=index_name,
+                    description=f"A tool for answering questions about {filename}."
+                )
+            )
+
+            dynamic_tools[index_name] = tool  # Register for agent later
+
+            return Response({"message": "PDF uploaded and indexed successfully", "index_name": filename}, status=200)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
 
 class AIQueryView(views.APIView):
     serializer_class = ChatMessageSerializer
@@ -81,7 +157,10 @@ class AIQueryView(views.APIView):
             full_prompt = f"{chat_context}\nUser: {user_input}"
             
             # Use the full prompt with the agent
-            result = agent.chat(full_prompt)
+            combined_tools = tools + list(dynamic_tools.values())
+            dynamic_agent = ReActAgent.from_tools(combined_tools, llm=llm, verbose=True, context=context, max_iterations=10)
+
+            result = dynamic_agent.chat(full_prompt)
             
             # Store chat message
             ChatMessage.objects.create(
