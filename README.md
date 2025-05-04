@@ -84,7 +84,8 @@ npm run dev
 Below are real prompts you can try with the AI agent:
 
 📄 PDF Uploads
-![PDF Upload](./pdf%20upload%202.PNG)
+
+![PDF Upload](./images/pdf%20upload%202.PNG)
 
 After uploading a PDF, you can ask:
 
@@ -93,28 +94,32 @@ After uploading a PDF, you can ask:
 * "Can you summarize the contents of my 'L18_worksheet' PDF?"
 
 📈 Crypto & Stock Price
-![Crytpo/Stock tool](./crptyo%20and%20stock%20tool.PNG)
+
+![Crytpo/Stock tool](./images/crptyo%20and%20stock%20tool.PNG)
 
 * "What is the latest price of Tesla stock?"
 
 * "How is Ethereum performing today?"
 
 📊 Top Gainers & Losers
-![Top Gainers Tool](./top%20gainers%20tool.PNG)
+
+![Top Gainers Tool](./images/top%20gainers%20tool.PNG)
 
 * "Who are the top gainers and losers in the stock market today?"
 
 * "Can you tell me the top 5 gainers only?"
 
 📰 News & Sentiment
-![News Tool](./news%20tool.PNG)
+
+![News Tool](./images/news%20tool.PNG)
 
 * "Give me recent news headlines about Nvidia."
 
 * "What's the market sentiment on Nvidia stock?"
 
 🌦️ Weather
-![Weather Tool](./weather%20tool.PNG)
+
+![Weather Tool](./images/weather%20tool.PNG)
 
 * "What's the weather like in Sacramento right now?"
 
