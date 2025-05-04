@@ -81,16 +81,44 @@ npm run dev
 ```
 
 ## 🤖 Tools You Can Ask the Agent About
+Below are real prompts you can try with the AI agent:
 
-* "What's the price of Ethereum?"
+📄 PDF Uploads
+![PDF Upload](./pdf%20upload%202.PNG)
 
-* "Give me the latest Tesla stock news"
+After uploading a PDF, you can ask:
 
-* "Summarize the PDF I just uploaded"
+* "What algorithms are discussed in the L18_worksheet PDF?"
 
-* "What's the weather in New York?"
+* "Can you summarize the contents of my 'L18_worksheet' PDF?"
 
-* "Who are the top gainers today?"
+📈 Crypto & Stock Price
+![Crytpo/Stock tool](./crptyo%20and%20stock%20tool.PNG)
+
+* "What is the latest price of Tesla stock?"
+
+* "How is Ethereum performing today?"
+
+📊 Top Gainers & Losers
+![Top Gainers Tool](./top%20gainers%20tool.PNG)
+
+* "Who are the top gainers and losers in the stock market today?"
+
+* "Can you tell me the top 5 gainers only?"
+
+📰 News & Sentiment
+![News Tool](./news%20tool.PNG)
+
+* "Give me recent news headlines about Nvidia."
+
+* "What's the market sentiment on Nvidia stock?"
+
+🌦️ Weather
+![Weather Tool](./weather%20tool.PNG)
+
+* "What's the weather like in Sacramento right now?"
+
+* "Can you put that into Fahrenheit?"
 
 ## 📜 Credits
 
