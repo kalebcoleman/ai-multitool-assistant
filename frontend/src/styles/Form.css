@@ -1,73 +1,255 @@
-.form-container {
+/* ===================================
+   Authentication Page Styles
+   Glassmorphism design
+   =================================== */
+
+.auth-page {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 50px auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
+  padding: var(--space-xl);
+  position: relative;
+  overflow: hidden;
 }
 
-.form-input {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.form-button {
-  width: 95%;
-  padding: 10px;
-  margin: 20px 0;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.form-button:hover {
-  background-color: #0056b3;
-}
-
-.logout-container {
-  display: flex;
-  justify-content: flex-end;
-  position: fixed;
-  top: 10px;
-  right: 5px;
+/* ===================================
+   Background Gradient
+   =================================== */
+.auth-bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding-right: 5px;
-  box-sizing: border-box;
+  height: 100%;
+  background: radial-gradient(ellipse at top left, rgba(16, 163, 127, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(124, 58, 237, 0.12) 0%, transparent 50%),
+    var(--bg-primary);
+  pointer-events: none;
+  z-index: 0;
 }
 
-.logout-button {
-  background-color: #007bff;
+/* ===================================
+   Logo
+   =================================== */
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-logo .logo-icon {
+  font-size: 2rem;
+}
+
+.auth-logo .logo-text {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ===================================
+   Auth Card (Glassmorphism)
+   =================================== */
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.4s ease-out;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.auth-header h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.auth-header p {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* ===================================
+   Form Styles
+   =================================== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.auth-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-md);
+  color: var(--error);
+  font-size: var(--font-size-sm);
+  animation: fadeIn var(--transition-fast);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.form-group label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.form-group input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.form-group input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.15);
+}
+
+.form-group input::placeholder {
+  color: var(--text-muted);
+}
+
+.auth-submit {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  margin-top: var(--space-sm);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: 600;
   color: white;
+  background: var(--accent-primary);
   border: none;
-  border-radius: 4px;
-  padding: 10px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: 44px;
 }
 
-.logout-button:hover {
-  background-color: #0056b3;
+.auth-submit:hover:not(:disabled) {
+  background: var(--accent-primary-hover);
+  box-shadow: var(--shadow-glow);
 }
 
-@media (max-width: 600px) {
-  .logout-container {
-    top: 10px;
-    right: 10px;
-    padding-right: 10px;
+.auth-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ===================================
+   Auth Footer Links
+   =================================== */
+.auth-footer {
+  text-align: center;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-secondary);
+}
+
+.auth-footer p {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.auth-footer a {
+  color: var(--accent-primary);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.auth-footer a:hover {
+  color: var(--accent-primary-hover);
+  text-decoration: underline;
+}
+
+/* ===================================
+   Page Footer
+   =================================== */
+.auth-page-footer {
+  position: absolute;
+  bottom: var(--space-lg);
+  text-align: center;
+}
+
+.auth-page-footer p {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+/* ===================================
+   Loading Indicator
+   =================================== */
+.loading-indicator {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-  .logout-button {
-    padding: 8px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+@media (max-width: 480px) {
+  .auth-page {
+    padding: var(--space-md);
+  }
+
+  .auth-card {
+    padding: var(--space-lg);
+  }
+
+  .auth-header h1 {
+    font-size: var(--font-size-xl);
   }
 }

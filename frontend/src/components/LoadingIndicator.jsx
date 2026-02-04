@@ -1,9 +1,7 @@
-import "../styles/LoadingIndicator.css"
+import "../styles/LoadingIndicator.css";
 
-const LoadingIndicator = () => {
-    return <div className="loading-container">
-        <div className="loader"></div>
-    </div>
+function LoadingIndicator() {
+    return <div className="loading-indicator"></div>;
 }
 
-export default LoadingIndicator
+export default LoadingIndicator;

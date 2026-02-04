@@ -1,155 +1,165 @@
-# 🧠 AI Agent Assistant - Django + React + LlamaIndex + OpenAi
+# 🧠 AI Multitool Assistant
 
-An intelligent full-stack AI-powered web assistant that allows users to:
+A full-stack AI-powered web assistant with a modern dark theme interface, featuring PDF Q&A, real-time data tools, and notes management.
 
-- Chat with a ReAct agent using OpenAI + LlamaIndex
-- Retrieve real-time stock, crypto, weather, and news data
-- Ask questions about PDFs
-- Save and manage notes
+![Home Dashboard](./images/home_dashboard.png)
 
-Built with Django (Backend), React (Frontend).
+## ✨ Features
 
-## 🚀 Quick Start
+- 🤖 **AI Chat** — Chat with a ReAct agent powered by Google Gemini
+- 📄 **PDF Q&A** — Upload PDFs and query their contents
+- 📈 **Real-time Data** — Stock prices, crypto, weather, and news
+- 📝 **Notes** — Create, view, and delete personal notes
+- 🔐 **Auth** — Secure JWT-based user accounts
 
-**1. Backend (Django):**
-```bash
-cd backend
-python -m venv env
-source env/bin/activate  # or env\Scripts\activate on Windows
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
-```
+## 🎨 Screenshots
 
-**2. Frontend (React):**
-```bash
-cd frontend
-npm install
-npm run dev
-```
+| Login | Chatbot | Notes |
+|-------|---------|-------|
+| ![Login](./images/login_page.png) | ![Chatbot](./images/chatbot_with_response.png) | ![Notes](./images/notes_page.png) |
+
+### PDF Indexing
+![PDF Indexing](./images/pdf_indexing.png)
 
 ## 🛠️ Tech Stack
 
-*   **Frontend:** React, Vite, Axios
-*   **Backend:** Django, Django Rest Framework, LlamaIndex, OpenAI
-*   **Authentication:** JWT (djangorestframework-simplejwt)
+| Layer | Technologies |
+|-------|-------------|
+| **Frontend** | React, Vite, Axios |
+| **Backend** | Django, Django REST Framework |
+| **AI** | Google Gemini via LlamaIndex |
+| **Embeddings** | HuggingFace (BAAI/bge-small-en-v1.5) |
+| **Auth** | JWT (djangorestframework-simplejwt) |
 
-## ⚙️ Configuration
+---
 
-Create `.env` files in the `backend` and `frontend` directories and add the following environment variables:
+## 🚀 Quick Start
 
-### Backend (`/backend/.env`)
+### Prerequisites
+- Python 3.10+
+- Node.js 18+
+- [Google AI API key](https://makersuite.google.com/app/apikey)
 
-| Variable | Description | Example |
-|---|---|---|
-| `OPENAI_API_KEY` | Your OpenAI API key. | `sk-...` |
-| `ALPHA_VANTAGE_API_KEY` | Your Alpha Vantage API key for stock data. | `...` |
-| `OPENWEATHERMAP_API_KEY` | Your OpenWeatherMap API key for weather data. | `...` |
-| `NEWS_API_KEY` | Your News API key for news headlines. | `...` |
-| `SECRET_KEY` | Your Django secret key. | `django-insecure-...` |
+### 1. Clone & Setup Environment
 
-### Frontend (`/frontend/.env`)
+```bash
+git clone https://github.com/kalebcoleman/ai-multitool-assistant.git
+cd ai-multitool-assistant
 
-| Variable | Description |
-|---|---|
-| `VITE_API_URL` | The URL of your backend API. | `http://127.0.0.1:8000` |
+# Create conda environment (recommended)
+conda create -n ai-assistant python=3.12
+conda activate ai-assistant
+```
 
+### 2. Backend Setup
+
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+Create `backend/.env`:
+```env
+GOOGLE_API_KEY=your_google_api_key
+GOOGLE_GENAI_MODEL=gemini-2.5-flash   # optional, defaults to gemini-2.5-flash
+SECRET_KEY=your_django_secret_key
+ALPHA_VANTAGE_API_KEY=your_key        # optional, for stock data
+OPENWEATHERMAP_API_KEY=your_key       # optional, for weather
+NEWS_API_KEY=your_key                 # optional, for news
+```
+
+Run migrations:
+```bash
+python manage.py migrate
+```
+
+### 3. Frontend Setup
+
+```bash
+cd ../frontend
+npm install
+```
+
+---
+
+## 🏃 Running the App
+
+**Terminal 1 — Backend:**
+```bash
+cd backend
+python manage.py runserver
+# → http://127.0.0.1:8000
+```
+
+**Terminal 2 — Frontend:**
+```bash
+cd frontend
+npm run dev
+# → http://localhost:5173
+```
+
+Open http://localhost:5173 in your browser.
+
+---
 
 ## 🤖 AI Agent Tools
 
-Below are real prompts you can try with the AI agent:
+| Tool | Example Prompt |
+|------|---------------|
+| 📈 **Stocks** | "What is the latest price of Tesla stock?" |
+| 💰 **Crypto** | "How is Ethereum performing today?" |
+| 🌦️ **Weather** | "What's the weather like in Sacramento?" |
+| 📰 **News** | "Give me recent news headlines about Nvidia" |
+| 📊 **Market Data** | "Who are the top gainers in the stock market?" |
+| 📄 **PDF Q&A** | "Summarize the contents of my uploaded PDF" |
 
-#### 📄 PDF Uploads
+---
 
-![PDF Upload](./images/pdf%20upload%202.PNG)
+## 📝 API Reference
 
-After uploading a PDF, you can ask:
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|:----:|
+| `POST` | `/api/register/` | Create user | |
+| `POST` | `/api/token/` | Get JWT tokens | |
+| `POST` | `/api/token/refresh/` | Refresh token | |
+| `GET` | `/api/notes/` | List user's notes | ✅ |
+| `POST` | `/api/notes/` | Create note | ✅ |
+| `DELETE` | `/api/notes/delete/<id>/` | Delete note | ✅ |
+| `POST` | `/api/query/` | Send AI prompt | ✅ |
+| `GET` | `/api/chat-history/` | Get chat history | ✅ |
+| `DELETE` | `/api/clear-chat-history/` | Clear chat | ✅ |
+| `POST` | `/api/upload-pdf/` | Upload PDF | ✅ |
 
-*   _"What algorithms are discussed in the L18_worksheet PDF?"_
-*   _"Can you summarize the contents of my 'L18_worksheet' PDF?"_
+---
 
-#### 📈 Crypto & Stock Price
+## ⚠️ Known Limitations
 
-![Crytpo/Stock tool](./images/crptyo%20and%20stock%20tool.PNG)
+- **PDF indexing** can take 10-30s on first upload (builds vector embeddings)
+- **First server start** is slow (~15s) as it loads the embedding model
+- **HuggingFace warning** about `resume_download` is harmless
 
-*   _"What is the latest price of Tesla stock?"_
-*   _"How is Ethereum performing today?"_
-
-#### 📊 Top Gainers & Losers
-
-![Top Gainers Tool](./images/top%20gainers%20tool.PNG)
-
-*   _"Who are the top gainers and losers in the stock market today?"_
-*   _"Can you tell me the top 5 gainers only?"_
-
-#### 📰 News & Sentiment
-
-![News Tool](./images/news%20tool.PNG)
-
-*   _"Give me recent news headlines about Nvidia."_
-*   _"What's the market sentiment on Nvidia stock?"_
-
-#### 🌦️ Weather
-
-![Weather Tool](./images/weather%20tool.PNG)
-
-*   _"What's the weather like in Sacramento right now?"_
-*   _"Can you put that into Fahrenheit?"_
-
-
-## 📝 Notes Feature
-
-You can create, view, and delete notes that are tied to your user account. This makes it easy to track and save key information from your chats or personal input.
-
-#### Example Screenshots
-
-✅ **Creating a Note**
-![Creating a Note](./images/note%20creating%20proof.PNG)
-
-📋 **Notes Saved with Timestamp**
-![Saved Note With Timestamp](./images/notes%20example.PNG)
-
-🧾 **Example Note**
-![Example Note](./images/notes%20created.PNG)
-
-## API Reference
-
-The following are the main API endpoints provided by the backend:
-
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|:---:|
-| `POST` | `/api/register/` | Create a new user. | |
-| `POST` | `/api/token/` | Obtain a new JWT access and refresh token. | |
-| `POST` | `/api/token/refresh/` | Refresh a JWT access token. | |
-| `GET` | `/api/notes/` | Get a list of the current user's notes. | ✅ |
-| `POST` | `/api/notes/` | Create a new note. | ✅ |
-| `DELETE` | `/api/notes/delete/<int:pk>/` | Delete a note by its ID. | ✅ |
-| `POST` | `/api/query/` | Send a prompt to the AI agent. | ✅ |
-| `GET` | `/api/chat-history/` | Get the user's chat history. | ✅ |
-| `DELETE` | `/api/clear-chat-history/` | Clear the user's chat history. | ✅ |
-| `POST` | `/api/upload-pdf/` | Upload a PDF file for the AI agent to index. | ✅ |
+---
 
 ## 🤝 Contributing
 
-Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/YourFeature`)
+3. Commit your changes (`git commit -m 'Add YourFeature'`)
+4. Push to the branch (`git push origin feature/YourFeature`)
+5. Open a pull request
 
-1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature/YourFeature`).
-3.  Make your changes.
-4.  Commit your changes (`git commit -m 'Add some feature'`).
-5.  Push to the branch (`git push origin feature/YourFeature`).
-6.  Open a pull request.
+---
+
+## 🧠 Author
+
+**Kaleb** — Solo dev building AI assistants
+
+- GitHub: [@kalebcoleman](https://github.com/kalebcoleman)
 
 ## 📜 Credits
 
 Inspired by Tech with Tim's Django AI Projects.
 
-## 🧠 Author
-
-Kaleb — Solo dev building AI assistants
-
-*   **GitHub:** [@kalebcoleman](https://github.com/kalebcoleman)
-
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+MIT License — see [LICENSE](LICENSE) for details.
